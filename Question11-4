@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int Max[10][10], need[10][10], alloc[10][10], available[10], completed[10], safeSeq[10];
+    int x, y, i, j, proces, count=0;
+do
+        {
+            printf("\n Max matrix:\tAllocation matrix:-\n");
+
+            for(i = 0; i < x; i++)
+            {
+                for( j = 0; j < y; j++)
+                    printf("%d ", Max[i][j]);
+                printf("\t\t");
+                for( j = 0; j < y; j++)
+                    printf("%d ", alloc[i][j]);
+                printf("\n");
+            }
+
+            proces = -1;
+
+            for(i = 0; i < x; i++)
+            {
+                if(completed[i] == 0)//if not completed
+                {
+                    proces = i ;
+                    for(j = 0; j < y; j++)
+                    {
+                        if(available[j] < need[i][j])
+                        {
+                            proces = -1;
+                            break;
+                        }
+                    }
+                }
+                if(proces != -1)
+                    break;
+            }
+
+            if(proces != -1)
+            {
+                printf("\nProcess %d runs to completion!", proces + 1);
+                safeSeq[count] = proces + 1;
+                count++;
+                for(j = 0; j < y; j++)
+                {
+                    available[j] += alloc[proces][j];
+                    alloc[proces][j] = 0;
+                    Max[proces][j] = 0;
+                    completed[proces] = 1;
+                }
+            }
+        }
+        while(count != x && proces != -1);
+
+}
